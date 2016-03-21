@@ -15,6 +15,7 @@
 
 @interface TableViewController () {
     NSMutableArray* appsArray;
+    NSUserDefaults* nsDefaults;
 }
 @end
 
@@ -23,6 +24,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    nsDefaults = [NSUserDefaults standardUserDefaults];
 
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = [UIColor grayColor];
@@ -92,7 +95,16 @@
         return nil;
     }
 
+    [nsDefaults setObject:response forKey:@"cachedData"];
+
+    NSDate* date = [NSDate date];
+    [nsDefaults setObject:date forKey:@"lastUpdated"];
+
     NSDictionary* latestTopApps = [parsedData valueForKeyPath:@"feed.entry"];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self appTitleAndSubtitle];
+    });
 
     return latestTopApps;
 }
@@ -110,7 +122,22 @@
     subTitleLabel.backgroundColor = [UIColor clearColor];
     subTitleLabel.textColor = [UIColor blackColor];
     subTitleLabel.font = [UIFont systemFontOfSize:12];
-    subTitleLabel.text = @"updated date";
+
+    NSDate* updatedDate = [nsDefaults objectForKey:@"lastUpdated"];
+
+    if (updatedDate) {
+
+        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"EEEE, MMMM dd, yyyy 'at' h:mm a"];
+
+        NSLocale* locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+        [formatter setLocale:locale];
+
+        subTitleLabel.text = [NSString stringWithFormat:@"updated on %@", [formatter stringFromDate:updatedDate]];
+    }
+    else {
+        subTitleLabel.text = @"";
+    }
 
     [subTitleLabel sizeToFit];
 
