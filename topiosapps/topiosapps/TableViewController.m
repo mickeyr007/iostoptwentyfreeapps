@@ -10,6 +10,8 @@
 #import "CustomTableCell.h"
 #import "App.h"
 
+#define kTopTwentyFiveAppsURL  [NSURL URLWithString:@"http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=25/json"]
+
 @interface TableViewController ()
 {
     NSMutableArray *appsArray;
@@ -21,13 +23,55 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-     [self appTitleAndSubtitle];
+    [self appTitleAndSubtitle];
+    [self getTopTwentyFiveApps];
     
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)getTopTwentyFiveApps
+{
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:kTopTwentyFiveAppsURL] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        if (!error) {
+            NSDictionary *latestTopApps = [self fetchData:data];
+            appsArray = [NSMutableArray arrayWithCapacity:10];
+            
+            if (latestTopApps) {
+                for (NSDictionary *appsDict in latestTopApps) {
+                    
+                    App *app = [[App alloc] init];
+                    app.name = [appsDict valueForKeyPath:@"im:name.label"];
+                    app.summary = [appsDict valueForKeyPath:@"summary.label"];
+                    app.iconURL = [[[appsDict valueForKeyPath:@"im:image"] objectAtIndex:2] objectForKey:@"label"];
+                    app.appURL=[appsDict valueForKeyPath:@"link.attributes.href"];
+                    
+                    [appsArray addObject:app];
+                }
+            }
+      
+            
+        }
+    }];
+}
+- (NSDictionary *)fetchData:(NSData *)response
+{
+    
+    NSError *jsonError = nil;
+    NSDictionary *parsedData = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonError];
+    
+    if (jsonError) {
+        return nil;
+    }
+   
+    NSDictionary* latestTopApps = [parsedData valueForKeyPath:@"feed.entry"];
+  
+    
+    return latestTopApps;
 }
 
 -(void)appTitleAndSubtitle
