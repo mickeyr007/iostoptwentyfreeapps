@@ -9,6 +9,7 @@
 #import "TableViewController.h"
 #import "CustomTableCell.h"
 #import "App.h"
+#import "UIImageView+AFNetworking.h"
 
 #define kTopTwentyFiveAppsURL  [NSURL URLWithString:@"http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=25/json"]
 
@@ -152,7 +153,23 @@
     cell.appName.text = app.name;
     cell.appSummary.text = app.summary;
     
+    NSURL* url = [NSURL URLWithString:app.iconURL];
+    NSURLRequest* request = [NSURLRequest requestWithURL:url];
+    UIImage* placeholderImage = [UIImage imageNamed:@"app-icon-placeholder"];
     
+    __weak CustomTableCell* weakCell = cell;
+    
+    [cell.appIcon
+     setImageWithURLRequest:request
+     placeholderImage:placeholderImage
+     success:^(NSURLRequest* request,
+               NSHTTPURLResponse* response, UIImage* image) {
+         
+         weakCell.appIcon.image = image;
+         [weakCell setNeedsLayout];
+         
+     }
+     failure:nil];
     
 
     
