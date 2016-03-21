@@ -53,11 +53,18 @@
                     [appsArray addObject:app];
                 }
             }
-      
+            [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
             
         }
     }];
 }
+
+- (void)reloadData
+{
+    // Reload table data
+    [self.tableView reloadData];
+}
+
 - (NSDictionary *)fetchData:(NSData *)response
 {
     
@@ -109,5 +116,45 @@
     
     self.navigationItem.titleView = twoLineTitleView;
 }
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    if (appsArray) {
+        return [appsArray count];
+    }
+    
+    return 0;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    if (appsArray) {
+        
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        return 1;
+        
+    }
+    
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CustomTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    
+    // Configure the cell...
+    App *app = [appsArray objectAtIndex:indexPath.row];
+    cell.appName.text = app.name;
+    cell.appSummary.text = app.summary;
+    
+    
+    
+
+    
+    return cell;
+}
+
 
 @end
