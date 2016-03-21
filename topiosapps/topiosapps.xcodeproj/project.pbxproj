@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20B6838D1C9FBC03009E433B /* PodcastTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20B6838C1C9FBC03009E433B /* PodcastTableViewController.m */; };
 		20C733811C9F93EF004C7352 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C733801C9F93EF004C7352 /* main.m */; };
 		20C733841C9F93EF004C7352 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C733831C9F93EF004C7352 /* AppDelegate.m */; };
 		20C733871C9F93EF004C7352 /* AppTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C733861C9F93EF004C7352 /* AppTableViewController.m */; };
@@ -35,6 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		20B6838B1C9FBBF5009E433B /* PodcastTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PodcastTableViewController.h; sourceTree = "<group>"; };
+		20B6838C1C9FBC03009E433B /* PodcastTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PodcastTableViewController.m; sourceTree = "<group>"; };
 		20C7337C1C9F93EF004C7352 /* topiosapps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = topiosapps.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20C733801C9F93EF004C7352 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		20C733821C9F93EF004C7352 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -134,6 +137,8 @@
 				20C7339A1C9F9904004C7352 /* App.m */,
 				20C733D51C9FB957004C7352 /* Podcast.h */,
 				20C733D61C9FB967004C7352 /* Podcast.m */,
+				20B6838B1C9FBBF5009E433B /* PodcastTableViewController.h */,
+				20B6838C1C9FBC03009E433B /* PodcastTableViewController.m */,
 			);
 			path = topiosapps;
 			sourceTree = "<group>";
@@ -295,6 +300,7 @@
 				20C733D11C9FA4EB004C7352 /* UIWebView+AFNetworking.m in Sources */,
 				20C733981C9F96F7004C7352 /* CustomTableCell.m in Sources */,
 				20C733CC1C9FA4EB004C7352 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				20B6838D1C9FBC03009E433B /* PodcastTableViewController.m in Sources */,
 				20C733CB1C9FA4EB004C7352 /* AFNetworkActivityIndicatorManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

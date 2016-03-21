@@ -6,8 +6,9 @@
 //  Copyright © 2016 Mickey Raj. All rights reserved.
 //
 
-#ifndef PodcastTableViewController_h
-#define PodcastTableViewController_h
+#import <UIKit/UIKit.h>
+
+@interface PodcastTableViewController : UITableViewController
 
 
-#endif /* PodcastTableViewController_h */
+@end
