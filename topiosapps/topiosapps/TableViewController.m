@@ -50,10 +50,11 @@
 
 - (void)getTopTwentyFiveApps
 {
+    
     [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:kTopTwentyFiveAppsURL] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse* response, NSData* data, NSError* error) {
 
         if (!error) {
-            NSDictionary* latestTopApps = [self fetchData:data];
+            NSDictionary* latestTopApps = [self fetchData:response data:data error:error];
             appsArray = [NSMutableArray arrayWithCapacity:10];
 
             if (latestTopApps) {
@@ -69,9 +70,13 @@
                 }
             }
             [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+        }else{
+            [self showRetryAlertWithError:error];
         }
     }];
 }
+
+
 - (void)getTopTwentyFiveAppsFromCachedData:(NSData*)cached
 {
     NSDictionary* latestTopApps = [self fetchDataFromCached:cached];
@@ -94,6 +99,7 @@
 }
 
 - (NSDictionary*)fetchDataFromCached:(NSData*)response
+
 {
     NSError* jsonError = nil;
     NSDictionary* parsedData = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonError];
@@ -124,18 +130,25 @@
     }
 }
 
-- (NSDictionary*)fetchData:(NSData*)response
+- (NSDictionary*)fetchData:(NSURLResponse*)response
+                      data:(NSData*)data
+                     error:(NSError*)error
 {
 
+    if (error) {
+        [self showRetryAlertWithError:error];
+        return nil;
+    }
+    
     NSError* jsonError = nil;
-    NSDictionary* parsedData = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonError];
+    NSDictionary* parsedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
 
     if (jsonError) {
         [self showRetryAlertWithError:jsonError];
         return nil;
     }
 
-    [nsDefaults setObject:response forKey:@"cachedData"];
+    [nsDefaults setObject:data forKey:@"cachedData"];
 
     NSDate* date = [NSDate date];
     [nsDefaults setObject:date forKey:@"lastUpdated"];
@@ -269,6 +282,12 @@ didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
 
 - (void)showRetryAlertWithError:(NSError*)error
 {
+    
+    if (self.refreshControl) {
+        [self.refreshControl endRefreshing];
+    }
+    
+    
     UIAlertController* alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error fetching data", @"") message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
     
     [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"") style:UIAlertActionStyleCancel handler:^(UIAlertAction* _Nonnull action){
@@ -281,6 +300,7 @@ didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
     
     [self presentViewController:alertController animated:YES completion:nil];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
