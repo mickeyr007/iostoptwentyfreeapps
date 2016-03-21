@@ -97,12 +97,49 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="IW8-FO-RMZ" kind="relationship" relationship="rootViewController" id="0eh-65-74C"/>
+                        <segue destination="SL0-C4-8Tw" kind="relationship" relationship="rootViewController" id="2hI-X6-Md1"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tsp-WI-bAg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="664" y="195"/>
+            <point key="canvasLocation" x="100" y="235"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="uPU-NN-reS">
+            <objects>
+                <viewController id="SL0-C4-8Tw" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gpJ-US-3d7"/>
+                        <viewControllerLayoutGuide type="bottom" id="dZ2-mk-kpm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Oyi-N5-Pe1">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q6g-G4-Txl">
+                                <rect key="frame" x="0.0" y="163" width="600" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="6Y1-4y-3y8"/>
+                                    <constraint firstAttribute="width" constant="600" id="LBa-55-b0z"/>
+                                </constraints>
+                                <state key="normal" title="Top 25 Free Apps"/>
+                                <connections>
+                                    <segue destination="IW8-FO-RMZ" kind="show" id="XNU-FR-eIo"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="q6g-G4-Txl" firstAttribute="top" secondItem="gpJ-US-3d7" secondAttribute="bottom" constant="99" id="EiT-Lb-ww2"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="q6g-G4-Txl" secondAttribute="trailing" constant="-20" id="le7-GL-LKl"/>
+                            <constraint firstItem="q6g-G4-Txl" firstAttribute="leading" secondItem="Oyi-N5-Pe1" secondAttribute="leadingMargin" constant="-20" id="w9n-Ck-XWe"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="z5R-dY-TFQ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KR5-R0-QdW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="741" y="252"/>
         </scene>
     </scenes>
 </document>
