@@ -8,18 +8,18 @@
 
 #import "App.h"
 #import "CustomTableCell.h"
-#import "TableViewController.h"
+#import "AppTableViewController.h"
 #import "UIImageView+AFNetworking.h"
 
 #define kTopTwentyFiveAppsURL [NSURL URLWithString:@"http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=25/json"]
 
-@interface TableViewController () {
+@interface AppTableViewController () {
     NSMutableArray* appsArray;
     NSUserDefaults* nsDefaults;
 }
 @end
 
-@implementation TableViewController
+@implementation AppTableViewController
 
 - (void)viewDidLoad
 {

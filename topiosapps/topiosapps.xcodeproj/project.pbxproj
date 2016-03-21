@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		20C733811C9F93EF004C7352 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C733801C9F93EF004C7352 /* main.m */; };
 		20C733841C9F93EF004C7352 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C733831C9F93EF004C7352 /* AppDelegate.m */; };
-		20C733871C9F93EF004C7352 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C733861C9F93EF004C7352 /* TableViewController.m */; };
+		20C733871C9F93EF004C7352 /* AppTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C733861C9F93EF004C7352 /* AppTableViewController.m */; };
 		20C7338A1C9F93EF004C7352 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20C733881C9F93EF004C7352 /* Main.storyboard */; };
 		20C7338C1C9F93EF004C7352 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20C7338B1C9F93EF004C7352 /* Assets.xcassets */; };
 		20C7338F1C9F93EF004C7352 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20C7338D1C9F93EF004C7352 /* LaunchScreen.storyboard */; };
@@ -31,6 +31,7 @@
 		20C733CF1C9FA4EB004C7352 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C733BD1C9FA4EB004C7352 /* UIProgressView+AFNetworking.m */; };
 		20C733D01C9FA4EB004C7352 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C733BF1C9FA4EB004C7352 /* UIRefreshControl+AFNetworking.m */; };
 		20C733D11C9FA4EB004C7352 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C733C11C9FA4EB004C7352 /* UIWebView+AFNetworking.m */; };
+		20C733D71C9FB967004C7352 /* Podcast.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C733D61C9FB967004C7352 /* Podcast.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,8 +39,8 @@
 		20C733801C9F93EF004C7352 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		20C733821C9F93EF004C7352 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		20C733831C9F93EF004C7352 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		20C733851C9F93EF004C7352 /* TableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
-		20C733861C9F93EF004C7352 /* TableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		20C733851C9F93EF004C7352 /* AppTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppTableViewController.h; sourceTree = "<group>"; };
+		20C733861C9F93EF004C7352 /* AppTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppTableViewController.m; sourceTree = "<group>"; };
 		20C733891C9F93EF004C7352 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		20C7338B1C9F93EF004C7352 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		20C7338E1C9F93EF004C7352 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -83,6 +84,8 @@
 		20C733BF1C9FA4EB004C7352 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		20C733C01C9FA4EB004C7352 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		20C733C11C9FA4EB004C7352 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
+		20C733D51C9FB957004C7352 /* Podcast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Podcast.h; sourceTree = "<group>"; };
+		20C733D61C9FB967004C7352 /* Podcast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Podcast.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,8 +123,8 @@
 				20C733971C9F96F7004C7352 /* CustomTableCell.h */,
 				20C733821C9F93EF004C7352 /* AppDelegate.h */,
 				20C733831C9F93EF004C7352 /* AppDelegate.m */,
-				20C733851C9F93EF004C7352 /* TableViewController.h */,
-				20C733861C9F93EF004C7352 /* TableViewController.m */,
+				20C733851C9F93EF004C7352 /* AppTableViewController.h */,
+				20C733861C9F93EF004C7352 /* AppTableViewController.m */,
 				20C733881C9F93EF004C7352 /* Main.storyboard */,
 				20C7338B1C9F93EF004C7352 /* Assets.xcassets */,
 				20C7338D1C9F93EF004C7352 /* LaunchScreen.storyboard */,
@@ -129,6 +132,8 @@
 				20C7337F1C9F93EF004C7352 /* Supporting Files */,
 				20C733991C9F98F5004C7352 /* App.h */,
 				20C7339A1C9F9904004C7352 /* App.m */,
+				20C733D51C9FB957004C7352 /* Podcast.h */,
+				20C733D61C9FB967004C7352 /* Podcast.m */,
 			);
 			path = topiosapps;
 			sourceTree = "<group>";
@@ -273,7 +278,8 @@
 				20C733CD1C9FA4EB004C7352 /* UIButton+AFNetworking.m in Sources */,
 				20C733D01C9FA4EB004C7352 /* UIRefreshControl+AFNetworking.m in Sources */,
 				20C733C51C9FA4EB004C7352 /* AFURLRequestSerialization.m in Sources */,
-				20C733871C9F93EF004C7352 /* TableViewController.m in Sources */,
+				20C733D71C9FB967004C7352 /* Podcast.m in Sources */,
+				20C733871C9F93EF004C7352 /* AppTableViewController.m in Sources */,
 				20C733C81C9FA4EB004C7352 /* UIApplication+NetworkIndicator.m in Sources */,
 				20C7339B1C9F9904004C7352 /* App.m in Sources */,
 				20C733841C9F93EF004C7352 /* AppDelegate.m in Sources */,
