@@ -6,56 +6,62 @@
 //  Copyright © 2016 Mickey Raj. All rights reserved.
 //
 
-#import "TableViewController.h"
-#import "CustomTableCell.h"
 #import "App.h"
+#import "CustomTableCell.h"
+#import "TableViewController.h"
 #import "UIImageView+AFNetworking.h"
 
-#define kTopTwentyFiveAppsURL  [NSURL URLWithString:@"http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=25/json"]
+#define kTopTwentyFiveAppsURL [NSURL URLWithString:@"http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topfreeapplications/limit=25/json"]
 
-@interface TableViewController ()
-{
-    NSMutableArray *appsArray;
+@interface TableViewController () {
+    NSMutableArray* appsArray;
 }
 @end
 
 @implementation TableViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    
+
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.backgroundColor = [UIColor grayColor];
+    self.refreshControl.tintColor = [UIColor whiteColor];
+    [self.refreshControl addTarget:self
+                            action:@selector(getTopTwentyFiveApps)
+                  forControlEvents:UIControlEventValueChanged];
+
     [self appTitleAndSubtitle];
     [self getTopTwentyFiveApps];
-    
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 - (void)getTopTwentyFiveApps
 {
-    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:kTopTwentyFiveAppsURL] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        
+    [NSURLConnection sendAsynchronousRequest:[[NSURLRequest alloc] initWithURL:kTopTwentyFiveAppsURL] queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse* response, NSData* data, NSError* error) {
+
         if (!error) {
-            NSDictionary *latestTopApps = [self fetchData:data];
+            NSDictionary* latestTopApps = [self fetchData:data];
             appsArray = [NSMutableArray arrayWithCapacity:10];
-            
+
             if (latestTopApps) {
-                for (NSDictionary *appsDict in latestTopApps) {
-                    
-                    App *app = [[App alloc] init];
+                for (NSDictionary* appsDict in latestTopApps) {
+
+                    App* app = [[App alloc] init];
                     app.name = [appsDict valueForKeyPath:@"im:name.label"];
                     app.summary = [appsDict valueForKeyPath:@"summary.label"];
                     app.iconURL = [[[appsDict valueForKeyPath:@"im:image"] objectAtIndex:2] objectForKey:@"label"];
-                    app.appURL=[appsDict valueForKeyPath:@"link.attributes.href"];
-                    
+                    app.appURL = [appsDict valueForKeyPath:@"link.attributes.href"];
+
                     [appsArray addObject:app];
                 }
             }
             [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-            
         }
     }];
 }
@@ -64,117 +70,124 @@
 {
     // Reload table data
     [self.tableView reloadData];
+    if (self.refreshControl) {
+
+        NSString* title = @"Getting new data";
+        NSDictionary* attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
+                                                                    forKey:NSForegroundColorAttributeName];
+        NSAttributedString* attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
+        self.refreshControl.attributedTitle = attributedTitle;
+
+        [self.refreshControl endRefreshing];
+    }
 }
 
-- (NSDictionary *)fetchData:(NSData *)response
+- (NSDictionary*)fetchData:(NSData*)response
 {
-    
-    NSError *jsonError = nil;
-    NSDictionary *parsedData = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonError];
-    
+
+    NSError* jsonError = nil;
+    NSDictionary* parsedData = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonError];
+
     if (jsonError) {
         return nil;
     }
-   
+
     NSDictionary* latestTopApps = [parsedData valueForKeyPath:@"feed.entry"];
-  
-    
+
     return latestTopApps;
 }
 
--(void)appTitleAndSubtitle
+- (void)appTitleAndSubtitle
 {
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+    UILabel* titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.textColor = [UIColor blackColor];
     titleLabel.font = [UIFont boldSystemFontOfSize:20];
     titleLabel.text = @"Top 25 Free Apps";
     [titleLabel sizeToFit];
- 
-    UILabel *subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, 0, 0)];
+
+    UILabel* subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 22, 0, 0)];
     subTitleLabel.backgroundColor = [UIColor clearColor];
     subTitleLabel.textColor = [UIColor blackColor];
     subTitleLabel.font = [UIFont systemFontOfSize:12];
-    subTitleLabel.text=@"updated date";
-   
+    subTitleLabel.text = @"updated date";
+
     [subTitleLabel sizeToFit];
-    
-    UIView *twoLineTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAX(subTitleLabel.frame.size.width, titleLabel.frame.size.width), 30)];
+
+    UIView* twoLineTitleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, MAX(subTitleLabel.frame.size.width, titleLabel.frame.size.width), 30)];
     [twoLineTitleView addSubview:titleLabel];
     [twoLineTitleView addSubview:subTitleLabel];
-    
+
     float widthDiff = subTitleLabel.frame.size.width - titleLabel.frame.size.width;
-    
+
     if (widthDiff > 0) {
         CGRect frame = titleLabel.frame;
         frame.origin.x = widthDiff / 2;
         titleLabel.frame = CGRectIntegral(frame);
-    }else{
+    }
+    else {
         CGRect frame = subTitleLabel.frame;
         frame.origin.x = abs(widthDiff) / 2;
         subTitleLabel.frame = CGRectIntegral(frame);
     }
-    
+
     self.navigationItem.titleView = twoLineTitleView;
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath
+{
     return 97.0;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
     if (appsArray) {
         return [appsArray count];
     }
-    
+
     return 0;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView
 {
     // Return the number of sections.
     if (appsArray) {
-        
+
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         return 1;
-        
     }
-    
+
     return 0;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    CustomTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    
+    CustomTableCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+
     // Configure the cell...
-    App *app = [appsArray objectAtIndex:indexPath.row];
+    App* app = [appsArray objectAtIndex:indexPath.row];
     cell.appName.text = app.name;
     cell.appSummary.text = app.summary;
-    
+
     NSURL* url = [NSURL URLWithString:app.iconURL];
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
     UIImage* placeholderImage = [UIImage imageNamed:@"app-icon-placeholder"];
-    
-    __weak CustomTableCell* weakCell = cell;
-    
-    [cell.appIcon
-     setImageWithURLRequest:request
-     placeholderImage:placeholderImage
-     success:^(NSURLRequest* request,
-               NSHTTPURLResponse* response, UIImage* image) {
-         
-         weakCell.appIcon.image = image;
-         [weakCell setNeedsLayout];
-         
-     }
-     failure:nil];
-    
 
-    
+    __weak CustomTableCell* weakCell = cell;
+
+    [cell.appIcon
+        setImageWithURLRequest:request
+              placeholderImage:placeholderImage
+                       success:^(NSURLRequest* request,
+                           NSHTTPURLResponse* response, UIImage* image) {
+
+                           weakCell.appIcon.image = image;
+                           [weakCell setNeedsLayout];
+
+                       }
+                       failure:nil];
+
     return cell;
 }
-
 
 @end
