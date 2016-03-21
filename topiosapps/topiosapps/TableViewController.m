@@ -12,7 +12,7 @@
 
 @interface TableViewController ()
 {
-
+    NSMutableArray *appsArray;
 }
 @end
 
