@@ -14,6 +14,7 @@
 		20C7338C1C9F93EF004C7352 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20C7338B1C9F93EF004C7352 /* Assets.xcassets */; };
 		20C7338F1C9F93EF004C7352 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 20C7338D1C9F93EF004C7352 /* LaunchScreen.storyboard */; };
 		20C733981C9F96F7004C7352 /* CustomTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C733961C9F96F7004C7352 /* CustomTableCell.m */; };
+		20C7339B1C9F9904004C7352 /* App.m in Sources */ = {isa = PBXBuildFile; fileRef = 20C7339A1C9F9904004C7352 /* App.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,8 @@
 		20C733901C9F93EF004C7352 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20C733961C9F96F7004C7352 /* CustomTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableCell.m; sourceTree = "<group>"; };
 		20C733971C9F96F7004C7352 /* CustomTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableCell.h; sourceTree = "<group>"; };
+		20C733991C9F98F5004C7352 /* App.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
+		20C7339A1C9F9904004C7352 /* App.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = App.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +75,8 @@
 				20C7338D1C9F93EF004C7352 /* LaunchScreen.storyboard */,
 				20C733901C9F93EF004C7352 /* Info.plist */,
 				20C7337F1C9F93EF004C7352 /* Supporting Files */,
+				20C733991C9F98F5004C7352 /* App.h */,
+				20C7339A1C9F9904004C7352 /* App.m */,
 			);
 			path = topiosapps;
 			sourceTree = "<group>";
@@ -155,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				20C733871C9F93EF004C7352 /* TableViewController.m in Sources */,
+				20C7339B1C9F9904004C7352 /* App.m in Sources */,
 				20C733841C9F93EF004C7352 /* AppDelegate.m in Sources */,
 				20C733811C9F93EF004C7352 /* main.m in Sources */,
 				20C733981C9F96F7004C7352 /* CustomTableCell.m in Sources */,

@@ -7,7 +7,6 @@
 //
 
 #import "CustomTableCell.h"
-
 @implementation CustomTableCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
