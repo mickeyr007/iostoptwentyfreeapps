@@ -35,13 +35,17 @@
                   forControlEvents:UIControlEventValueChanged];
 
     [self appTitleAndSubtitle];
-    [self getTopTwentyFiveApps];
-}
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    NSData* cachedData = [nsDefaults dataForKey:@"cachedData"];
+
+    if (cachedData != nil) {
+        NSLog(@"getting data from cached results");
+        [self getTopTwentyFiveAppsFromCachedData:cachedData];
+    }
+    else {
+        [self getTopTwentyFiveApps];
+        NSLog(@"No cached data");
+    }
 }
 
 - (void)getTopTwentyFiveApps
@@ -68,6 +72,41 @@
         }
     }];
 }
+- (void)getTopTwentyFiveAppsFromCachedData:(NSData*)cached
+{
+    NSDictionary* latestTopApps = [self fetchDataFromCached:cached];
+    appsArray = [NSMutableArray arrayWithCapacity:10];
+
+    if (latestTopApps) {
+        for (NSDictionary* appsDict in latestTopApps) {
+
+            App* app = [[App alloc] init];
+            app.name = [appsDict valueForKeyPath:@"im:name.label"];
+            app.summary = [appsDict valueForKeyPath:@"summary.label"];
+            app.iconURL = [[[appsDict valueForKeyPath:@"im:image"] objectAtIndex:2] objectForKey:@"label"];
+            app.appURL = [appsDict valueForKeyPath:@"link.attributes.href"];
+
+            [appsArray addObject:app];
+        }
+    }
+
+    [self performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+}
+
+- (NSDictionary*)fetchDataFromCached:(NSData*)response
+{
+    NSError* jsonError = nil;
+    NSDictionary* parsedData = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonError];
+
+    if (jsonError) {
+         [self showRetryAlertWithError:jsonError];
+        return nil;
+    }
+
+    NSDictionary* latestTopApps = [parsedData valueForKeyPath:@"feed.entry"];
+
+    return latestTopApps;
+}
 
 - (void)reloadData
 {
@@ -92,6 +131,7 @@
     NSDictionary* parsedData = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonError];
 
     if (jsonError) {
+        [self showRetryAlertWithError:jsonError];
         return nil;
     }
 
@@ -187,6 +227,16 @@
     return 0;
 }
 
+- (void)tableView:(UITableView*)tableView
+didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
+    
+    App *app = [appsArray objectAtIndex:indexPath.row];
+    
+    NSURL* url = [NSURL URLWithString:app.appURL];
+    [[UIApplication sharedApplication] openURL:url];
+    
+}
+
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
     CustomTableCell* cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
@@ -215,6 +265,27 @@
                        failure:nil];
 
     return cell;
+}
+
+- (void)showRetryAlertWithError:(NSError*)error
+{
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error fetching data", @"") message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Dismiss", @"") style:UIAlertActionStyleCancel handler:^(UIAlertAction* _Nonnull action){
+        
+    }]];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Retry", @"") style:UIAlertActionStyleDefault handler:^(UIAlertAction* _Nonnull action) {
+        [self getTopTwentyFiveApps];
+    }]];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 @end
